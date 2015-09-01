@@ -6,7 +6,7 @@ var platform = require('./platform'),
 /*
  * Listen for the ready event.
  */
-platform.on('ready', function (options) {
+platform.once('ready', function (options) {
 	/*
 	 * Initialize your service plugin using the options. See config.json
 	 * You can customize config.json based on the needs of your plugin.
