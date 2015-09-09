@@ -1,7 +1,12 @@
 'use strict';
 
-var inherits     = require('util').inherits,
+var isJSON       = require('is-json'),
+	inherits     = require('util').inherits,
 	EventEmitter = require('events').EventEmitter;
+
+var isString = function (val) {
+	return typeof val === 'string' || ((!!val && typeof val === 'object') && Object.prototype.toString.call(val) === '[object String]');
+};
 
 function Platform() {
 	if (!(this instanceof Platform)) return new Platform();
@@ -33,7 +38,10 @@ Platform.init = function () {
 
 Platform.prototype.sendResult = function (result, callback) {
 	setImmediate(function () {
-		callback = callback || function () {};
+		callback = callback || function () {
+			};
+
+		if (isString(result) && !isJSON(result)) return callback(new Error('A valid JSON String is required as result.'));
 
 		process.send({
 			type: 'result',
@@ -46,9 +54,10 @@ Platform.prototype.sendResult = function (result, callback) {
 
 Platform.prototype.log = function (title, description, callback) {
 	setImmediate(function () {
-		callback = callback || function () {};
+		callback = callback || function () {
+			};
 
-		if (!title) return callback(new Error('Log title is required.'));
+		if (!title || !isString(title)) return callback(new Error('A valid log title is required.'));
 
 		process.send({
 			type: 'log',
@@ -64,7 +73,8 @@ Platform.prototype.log = function (title, description, callback) {
 
 Platform.prototype.handleException = function (error, callback) {
 	setImmediate(function () {
-		callback = callback || function () {};
+		callback = callback || function () {
+			};
 
 		if (!error) return callback(new Error('Error is required.'));
 

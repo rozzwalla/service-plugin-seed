@@ -11,7 +11,9 @@
     "type": "git",
     "url": "https://github.com/Reekoh/service-plugin-seed"
   },
-  "dependencies": {},
+  "dependencies": {
+    "is-json": "^1.2.5"
+  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-cli": "^0.3.0",
