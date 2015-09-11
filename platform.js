@@ -35,6 +35,19 @@ Platform.init = function () {
 	});
 };
 
+Platform.prototype.notifyReady = function (callback) {
+	callback = callback || function () {
+		};
+
+	setImmediate(function () {
+		process.send({
+			type: 'ready'
+		});
+
+		callback();
+	});
+};
+
 Platform.prototype.sendResult = function (result, callback) {
 	callback = callback || function () {
 		};
