@@ -4,6 +4,27 @@ var platform = require('./platform'),
 	serviceClient;
 
 /*
+ * Listen for the data event.
+ */
+platform.on('data', function (data) {
+	/*
+	 * Send the data to the service and expect a result.
+	 *
+	 * Example:
+	 *
+	 * serviceClient.send(data, function (error, result) {
+	 *     if (error) {
+	 *         platform.handleException(error);
+	 *     }
+	 *     else {
+	 *         platform.sendResult(result);
+	 *     }
+	 * })
+	 */
+	console.log(data);
+});
+
+/*
  * Listen for the ready event.
  */
 platform.once('ready', function (options) {
@@ -23,24 +44,6 @@ platform.once('ready', function (options) {
 	 */
 
 	// TODO: Initialize the client connection to the web service here.
-});
-
-/*
- * Listen for the data event.
- */
-platform.on('data', function (data) {
-	/*
-	 * Send the data to the service and expect a result.
-	 *
-	 * Example:
-	 *
-	 * serviceClient.send(data, function (error, result) {
-	 *     if (error) {
-	 *         platform.handleException(error);
-	 *     }
-	 *     else {
-	 *         platform.sendResult(result);
-	 *     }
-	 * })
-	 */
+	console.log(options);
+	platform.notifyReady();
 });

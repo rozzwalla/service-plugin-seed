@@ -1,14 +1,12 @@
-[
-  {
-	"name": "clientid",
-	"label": "Client ID",
+{
+  "config_field1": {
+	"label": "Config Field 1",
 	"type": "String",
 	"required": true
   },
-  {
-	"name": "clientsecret",
-	"label": "Client Secret",
-	"type": "String",
+  "config_field2": {
+	"label": "Config Field 2",
+	"type": "Number",
 	"required": true
   }
-]
+}
