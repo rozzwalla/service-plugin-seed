@@ -9,6 +9,8 @@ var cp     = require('child_process'),
 	service;
 
 describe('Service', function () {
+	this.slow(5000);
+
 	describe('#spawn', function () {
 		it('should spawn a child process', function () {
 			assert.ok(service = cp.fork(process.cwd()), 'Child process not spawned.');
@@ -16,16 +18,13 @@ describe('Service', function () {
 	});
 
 	describe('#handShake', function () {
-		it('should notify the parent process when ready within 5 seconds', function () {
-			var initTimeout;
+		it('should notify the parent process when ready within 5 seconds', function (done) {
+			this.timeout(5000);
 
-			service.on('ready', function () {
-				clearTimeout(initTimeout);
+			service.on('message', function (message) {
+				if (message.type === 'ready')
+					done();
 			});
-
-			initTimeout = setTimeout(function () {
-				assert.ok(false, 'Plugin init timeout.');
-			}, 5000);
 
 			service.send({
 				type: 'ready',
@@ -42,7 +41,7 @@ describe('Service', function () {
 	});
 
 	describe('#data', function () {
-		it('should process the data', function () {
+		it('should process the data', function (done) {
 			service.send({
 				type: 'data',
 				data: {
@@ -50,9 +49,7 @@ describe('Service', function () {
 					key2: 121,
 					key3: 40
 				}
-			}, function (error) {
-				assert.ifError(error);
-			});
+			}, done);
 		});
 	});
 });
