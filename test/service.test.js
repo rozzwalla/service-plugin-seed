@@ -11,6 +11,10 @@ var cp     = require('child_process'),
 describe('Service', function () {
 	this.slow(5000);
 
+	after('terminate child process', function () {
+		service.kill('SIGKILL');
+	});
+
 	describe('#spawn', function () {
 		it('should spawn a child process', function () {
 			assert.ok(service = cp.fork(process.cwd()), 'Child process not spawned.');
